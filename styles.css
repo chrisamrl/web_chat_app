@@ -1,0 +1,45 @@
+#chat-container div:first-child {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+#chat-container div:last-child {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+#chat-container div{
+    padding: 10px;
+    background-color: rgb(0, 217, 255);
+}
+
+#chat-container div:nth-child(2n){
+    padding: 10px;
+    background-color: white;
+}
+
+#send {
+    width: 500px
+}
+
+#content {
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+}
+
+div .form {
+    margin-top: 10px;
+    display: flex;
+    background-color: thistle;
+}
+
+form {
+    width: 700px;
+}
+#typed-text {
+    width: 350px
+}
+
+#send-message {
+    width: 120px;
+}

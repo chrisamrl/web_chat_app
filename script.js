@@ -1,35 +1,40 @@
 const socket = io("ws://localhost:3000");
-const form = document.getElementById('send')
-const chatInput = document.getElementById('typed-text')
-const container = document.getElementById('chat-container')
+const chatInput = document.getElementById('typed-text');
+const chatContainer = document.getElementById('chat-container');
+const sendButton = document.getElementById('send');
 
-const namel= prompt('What is your name?')
-appendMessage("you joinedx")
+//Function to add new chat
+function appendChatBox(message) {
+    const singleChat = document.createElement('div')
+    singleChat.innerText = message
+    chatContainer.append(singleChat)
+}
 
-socket.emit('new-user', namel)
-
-socket.on('chat-message', message =>{
-    appendMessage(`${message.name}: ${message.message}`)
-})
-
-socket.on('user-connected', names => {
-    appendMessage(`${names} connected`)
-})
-
-socket.on('user-disconnected', names => {
-    appendMessage(`${names} disconnected`)
-  })
-
-form.addEventListener('submit', e => {
+//Adding Event Listener to the send button
+sendButton.addEventListener('submit', e => {
     e.preventDefault()
     const message = chatInput.value
-    appendMessage(`You : ${message}`)
+    appendChatBox(`You : ${message}`)
     socket.emit('send-chat-message', message)
     chatInput.value = ''
 })
 
-function appendMessage(message) {
-    const messageElement = document.createElement('div')
-    messageElement.innerText = message
-    container.append(messageElement)
-}
+//When User Joined, 
+const userName= prompt('Pick your username!')
+appendChatBox("You're now in the chatroom")
+socket.emit('new-user-joined', userName)
+
+//User connected
+socket.on('user-connected', names => {
+    appendChatBox(`New User: ${names} has joined`)
+})
+
+//Receiving chat
+socket.on('received-chat-message', message =>{
+    appendChatBox(`${message.name}: ${message.text}`)
+})
+
+//User disonnected
+socket.on('user-disconnected', names => {
+    appendChatBox(`${names} has left`)
+  })
